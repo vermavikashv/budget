@@ -9,41 +9,32 @@ import {
   Statistic,
 } from "semantic-ui-react";
 import "./App.css";
+import MainHeader from "./components/MainHeader";
+import Newentryform from "./components/Newentryform";
+import Displaybalance from "./components/Displaybalance";
 
 function App() {
   return (
     <Container>
-      <Header as="h1">Budget</Header>
+      <MainHeader title="Budget" />
 
-      <Statistic size="small">
-        <Statistic.Label>Your Budget :</Statistic.Label>
-        <Statistic.Value>2,500.00</Statistic.Value>
-      </Statistic>
+      <Displaybalance title="Your Budget" value="2,500.00" size="small" />
 
       <Segment textAlign="center">
         <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
-              <Statistic size="tiny" color="green">
-                <Statistic.Label style={{ textAlign: "left" }}>
-                  Income:
-                </Statistic.Label>
-                <Statistic.Value>1,045.56</Statistic.Value>
-              </Statistic>
+              <Displaybalance title="Income" value="1045.86" color="green" />
             </Grid.Column>
             <Grid.Column>
-              <Statistic size="tiny" color="red">
-                <Statistic.Label style={{ textAlign: "left" }}>
-                  Expenses:
-                </Statistic.Label>
-                <Statistic.Value>645.56</Statistic.Value>
-              </Statistic>
+              <Displaybalance title="Expenses" value="645.56" color="red" />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </Segment>
 
-      <Header as="h3">History</Header>
+      <MainHeader title="History" type="h3" />
+
       <Segment color="red">
         {" "}
         {/* // line power box */}
@@ -105,31 +96,8 @@ function App() {
           </Grid.Row>
         </Grid>
       </Segment>
-
-      <Header as="h3">Add new transcation</Header>
-      <Form unstackable>
-        <Form.Group>
-          <Form.Input
-            icon="tags"
-            width={12}
-            label="description"
-            placeholder="New shinny thing"
-          />
-
-          <Form.Input
-            width={4}
-            label="Value"
-            placeholder="100.00"
-            icon="dollar"
-            iconPosition="left"
-          ></Form.Input>
-        </Form.Group>
-        <Button.Group style={{ marginTop: 20 }}>
-          <Button>cancel</Button>
-          <Button.Or />
-          <Button color="primary">ok</Button>
-        </Button.Group>
-      </Form>
+      <MainHeader title="Add new transcation" type="h3" />
+      <Newentryform />
     </Container>
   );
 }
