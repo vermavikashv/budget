@@ -8,13 +8,9 @@ export default function Displaybalance({
   size = "tiny",
 }) {
   return (
-    <div>
-      <Statistic size={size} color={color}>
-        <Statistic.Label style={{ textAlign: "left" }}>
-          {title}:
-        </Statistic.Label>
-        <Statistic.Value>{value}</Statistic.Value>
-      </Statistic>
-    </div>
+    <Statistic size={size} color={color}>
+      <Statistic.Label style={{ textAlign: "left" }}>{title}:</Statistic.Label>
+      <Statistic.Value>{value}</Statistic.Value>
+    </Statistic>
   );
 }

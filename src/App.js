@@ -12,8 +12,11 @@ import Newentryform from "./components/Newentryform";
 import Displaybalance from "./components/Displaybalance";
 import Displaybalances from "./components/Displaybalances";
 import Entryline from "./components/Entryline";
+import { useState } from "react";
+import EntryLines from "./components/EntryLines";
 
 function App() {
+  const [entries, SetEntries] = useState(initializeEntries);
   return (
     <Container>
       <MainHeader title="Budget" />
@@ -23,10 +26,8 @@ function App() {
       <Displaybalances />
 
       <MainHeader title="History" type="h3" />
-      <Entryline color="red" title=" SomeThing" value="10.00" isExpense />
-      <Entryline color="green" title=" SomeThing 2" value="100.00" />
-      <Entryline color="red" title=" SomeThing" value="10.00" isExpense />
 
+      <EntryLines entries={entries} />
       <MainHeader title="Add new transcation" type="h3" />
       <Newentryform />
     </Container>
@@ -34,3 +35,26 @@ function App() {
 }
 
 export default App;
+
+var initializeEntries = [
+  {
+    title: "work income",
+    value: "100.00",
+    isExpense: false,
+  },
+  {
+    title: "work bill",
+    value: "20.00",
+    isExpense: true,
+  },
+  {
+    title: "rent",
+    value: "300.00",
+    isExpense: true,
+  },
+  {
+    title: "internet bill",
+    value: "50.00",
+    isExpense: true,
+  },
+];
