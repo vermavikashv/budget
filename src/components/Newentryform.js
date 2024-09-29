@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Buttonsave from "./Buttonsave";
-import { Form } from "semantic-ui-react";
+import { Checkbox, Form, Segment } from "semantic-ui-react";
 
-export default function Newentryform() {
+export default function Newentryform({ addEntry }) {
+  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
+  const [isExpense, setIsexpense] = useState(true);
+
   return (
     <Form unstackable>
       <Form.Group>
@@ -11,6 +15,8 @@ export default function Newentryform() {
           width={12}
           label="description"
           placeholder="New shinny thing"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
 
         <Form.Input
@@ -19,9 +25,24 @@ export default function Newentryform() {
           placeholder="100.00"
           icon="dollar"
           iconPosition="left"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         ></Form.Input>
       </Form.Group>
-      <Buttonsave />
+      <Segment compact>
+        <Checkbox
+          toggle
+          label="is Expense"
+          checked={isExpense}
+          onChange={() => setIsexpense(!isExpense)}
+        />
+      </Segment>
+      <Buttonsave
+        addEntry={addEntry}
+        description={description}
+        value={value}
+        isExpense={isExpense}
+      />
     </Form>
   );
 }
