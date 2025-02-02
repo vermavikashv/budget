@@ -36,7 +36,7 @@ export default function Entryline({
           </Grid.Row>
         </Grid>
       </Segment>
-      <ModalEdit isOpen={isOpen} />
+      <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 }
