@@ -4,11 +4,49 @@ import MainHeader from "./components/MainHeader";
 import Newentryform from "./components/Newentryform";
 import Displaybalance from "./components/Displaybalance";
 import Displaybalances from "./components/Displaybalances";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EntryLines from "./components/EntryLines";
+import ModalEdit from "./components/ModalEdit";
 
 function App() {
   const [entries, SetEntries] = useState(initializeEntries);
+  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
+  const [isExpense, setIsexpense] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [entryid, SetEntryId] = useState();
+  const [incomeTotal, setIncomeTotal] = useState(0);
+  const [expenseTotal, setExpenseTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen && entryid) {
+      const index = entries.findIndex((entry) => entry.id === entryid);
+      const newEntries = [...entries];
+      console.log(newEntries, index);
+      newEntries[index].description = description;
+      newEntries[index].value = value;
+      newEntries[index].isExpense = isExpense;
+      SetEntries(newEntries);
+      resetEntry();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    entries.map((entry) => {
+      if (entry.isExpense) {
+        return (totalExpense += Number(entry.value));
+      } else {
+        return (totalIncome += Number(entry.value));
+      }
+    });
+    setTotal(totalIncome - totalExpense);
+    setIncomeTotal(totalIncome);
+    setExpenseTotal(totalExpense);
+  }, [entries]);
 
   function deleteEntry(id) {
     const result = entries.filter((entry) => entry.id !== id);
@@ -17,30 +55,75 @@ function App() {
     SetEntries(result);
   }
 
-  function addEntry(description, value, isExpense) {
+  function editEntry(id) {
+    console.log(`${id}`);
+    if (id) {
+      const index = entries.findIndex((entry) => entry.id === id);
+      const entry = entries[index];
+      SetEntryId(id);
+      setDescription(entry.description);
+      setValue(entry.value);
+      setIsexpense(entry.isExpense);
+      setIsOpen(true);
+    }
+  }
+
+  function addEntry() {
     const result = entries.concat({
       id: entries.length + 1,
-      title: description,
-      value: value,
-      isExpense: isExpense,
+      description,
+      value,
+      isExpense,
     });
 
     SetEntries(result);
+    console.log(result);
+
+    resetEntry();
+  }
+
+  function resetEntry() {
+    setDescription("");
+    setValue("");
+    setIsexpense(true);
   }
 
   return (
     <Container>
       <MainHeader title="Budget" />
 
-      <Displaybalance title="Your Budget" value="2,500.00" size="small" />
+      <Displaybalance title="Your Budget" value={total} size="small" />
 
-      <Displaybalances />
+      <Displaybalances expenseTotal={expenseTotal} incomeTotal={incomeTotal} />
 
       <MainHeader title="History" type="h3" />
 
-      <EntryLines entries={entries} deleteEntry={deleteEntry} />
+      <EntryLines
+        entries={entries}
+        deleteEntry={deleteEntry}
+        editEntry={editEntry}
+      />
       <MainHeader title="Add new transcation" type="h3" />
-      <Newentryform addEntry={addEntry} />
+      <Newentryform
+        addEntry={addEntry}
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setValue={setValue}
+        setDescription={setDescription}
+        setIsexpense={setIsexpense}
+      />
+      <ModalEdit
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        addEntry={addEntry}
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setValue={setValue}
+        setDescription={setDescription}
+        setIsexpense={setIsexpense}
+      />
     </Container>
   );
 }
@@ -50,26 +133,26 @@ export default App;
 var initializeEntries = [
   {
     id: 1,
-    title: "work income",
-    value: "100.00",
+    description: "work income",
+    value: 100.0,
     isExpense: false,
   },
   {
     id: 2,
-    title: "work bill",
-    value: "20.00",
+    description: "work bill",
+    value: 20.0,
     isExpense: true,
   },
   {
     id: 3,
-    title: "rent",
-    value: "300.00",
+    description: "rent",
+    value: 300.0,
     isExpense: true,
   },
   {
     id: 4,
-    title: "internet bill",
-    value: "50.00",
+    description: "internet bill",
+    value: 50.0,
     isExpense: true,
   },
 ];

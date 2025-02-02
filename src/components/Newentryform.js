@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Buttonsave from "./Buttonsave";
 import { Form } from "semantic-ui-react";
 import EntryForm from "./EntryForm";
 
-export default function Newentryform({ addEntry }) {
-  const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
-  const [isExpense, setIsexpense] = useState(true);
-
+export default function Newentryform({
+  addEntry,
+  value,
+  setValue,
+  description,
+  setDescription,
+  isExpense,
+  setIsexpense,
+}) {
   return (
     <Form unstackable>
       <EntryForm
@@ -19,12 +23,7 @@ export default function Newentryform({ addEntry }) {
         setIsexpense={setIsexpense}
       />
 
-      <Buttonsave
-        addEntry={addEntry}
-        description={description}
-        value={value}
-        isExpense={isExpense}
-      />
+      <Buttonsave addEntry={addEntry} />
     </Form>
   );
 }
